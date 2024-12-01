@@ -34,3 +34,37 @@ void Cell::selectPawn()
 {
    pawn->select();
 }
+
+Cell::Cell(const Cell& other)
+{
+   rectangle = other.rectangle;
+}
+
+void Cell::operator=(const Cell& other)
+{
+   rectangle = other.rectangle;
+}
+
+bool Cell::operator==(const Cell& other)
+{
+   return rectangle.getPosition() == other.rectangle.getPosition();
+}
+
+void Cell::diselectPawn()
+{
+   pawn->diselect();
+}
+
+void Cell::drawMoveOption(sf::RenderWindow& window)
+{
+   sf::CircleShape tmp(27);
+   tmp.setFillColor(sf::Color::Cyan);
+   tmp.setPosition(rectangle.getPosition());
+   window.draw(tmp);
+}
+
+void Cell::movePawn(Cell& other)
+{
+   pawn = std::move(other.pawn);
+   pawn->Move(rectangle.getPosition());
+}

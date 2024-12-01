@@ -23,12 +23,15 @@ int main()
 			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 			{
 				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-				int row = (1080 - mousePos.y)  / 54;  
-				int col = mousePos.x  / 54; 
+				int row = float((1080 - mousePos.y) * 512 / 1080 - 40)  / 54;  
+				int col = (float(mousePos.x * 512 / 1920) - 40 )/ 54; 
 				if (row >= 0 && row < 8 && col >= 0 && col < 8)
-					board.SelectPiece(row * 8 + col);
+				{
+					board.movePawn(row * 8 + col);
+					if(!board.wasMoved())
+						board.SelectPiece(row * 8 + col);
+				}
 			}
-			window.draw(rect);
 			board.Draw(window);
 			window.setView(view);
 			window.display();

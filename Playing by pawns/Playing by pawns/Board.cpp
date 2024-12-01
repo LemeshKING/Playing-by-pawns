@@ -37,12 +37,76 @@ Board::Board()
 
 void Board::Draw(sf::RenderWindow& window)
 {
+
    for(int i = 0; i < chessNotation.size(); i++)
       cells[chessNotation[i]].Draw(window);
+   if (lastSelect != -1)
+      for (const auto& i : indexes)
+         cells[chessNotation[i]].drawMoveOption(window);
+   moved = false;
+   
+   
 }
 
 void Board::SelectPiece(const int& i)
 {
+   if(lastSelect == i)
+   {
+      cells[chessNotation[i]].diselectPawn();
+      lastSelect = -1;
+      return;
+   }
    if(!cells[chessNotation[i]].cheackPawn())
+   {
       cells[chessNotation[i]].selectPawn();
+      if(lastSelect != -1)
+         cells[chessNotation[lastSelect]].diselectPawn();
+      lastSelect = i;
+      showMoveOptions();
+   }
+   else if (lastSelect != -1)
+   {
+      cells[chessNotation[lastSelect]].diselectPawn();
+      lastSelect = -1;
+   }
+}
+
+void Board::movePawn(const int& indexCell)
+{
+   if(lastSelect != -1)
+      for(const auto &i : indexes)
+         if(i == indexCell)
+         {
+            cells[chessNotation[indexCell]].movePawn(cells[chessNotation[lastSelect]]);
+            cells[chessNotation[indexCell]].diselectPawn();
+            moved = true;
+            lastSelect = -1;
+         }
+}
+
+bool Board::wasMoved()
+{
+   return moved;
+}
+
+void Board::showMoveOptions()
+{
+   indexes.clear();
+   indexes.reserve(4);
+   if (lastSelect != -1)
+   {
+      if(lastSelect + 8 < 64)  
+         if(cells[chessNotation[lastSelect + 8]].cheackPawn())
+            indexes.emplace_back(lastSelect + 8);
+      if(lastSelect - 8 >= 0)
+         if (cells[chessNotation[lastSelect - 8]].cheackPawn())
+            indexes.emplace_back(lastSelect - 8);
+      if(lastSelect % 8 != 0)
+         if (cells[chessNotation[lastSelect - 1]].cheackPawn())
+            indexes.emplace_back(lastSelect - 1);
+      if (lastSelect % 8 != 7)
+         if (cells[chessNotation[lastSelect + 1]].cheackPawn())
+            indexes.emplace_back(lastSelect + 1);
+   }
+
 }

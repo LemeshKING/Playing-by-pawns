@@ -5,7 +5,6 @@ typedef std::unique_ptr<Pawn> UPtrPawn;
 
 class Cell
 {
-   std::string position;
    sf::Sprite sprite;
    sf::RectangleShape rectangle;
    UPtrPawn pawn;
@@ -16,5 +15,11 @@ public:
    void setPawn(UPtrPawn &_pawn);
    bool cheackPawn();
    void selectPawn();
+   Cell(const Cell &other);
+   void operator=(const Cell &other);
+   bool operator==(const Cell &other);
+   void diselectPawn();
+   void drawMoveOption(sf::RenderWindow& window);
+   void movePawn(Cell &other);
 };
 

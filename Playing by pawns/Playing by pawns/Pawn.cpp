@@ -18,6 +18,16 @@ void Pawn::Draw(sf::RenderWindow& window)
 
 void Pawn::select()
 {
-   rectangle.setOutlineThickness(5);
+   rectangle.setOutlineThickness(1);
    rectangle.setOutlineColor(sf::Color::Yellow);
+}
+
+void Pawn::diselect()
+{
+   rectangle.setOutlineThickness(0);
+}
+
+void Pawn::Move(const sf::Vector2f& position)
+{
+   rectangle.setPosition(position.x + 2, position.y + 2);
 }
