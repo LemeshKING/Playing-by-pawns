@@ -23,14 +23,14 @@ Board::Board()
       {
          UPtrPawn tmp = std::make_unique<Pawn>(false, i, j);
          cells[chessNotation[i * 8 + j]].setPawn(tmp);
-         //std::cout << chessNotation[i * 8 + j] << std::endl;
+
       }
    for (int i = 0; i < 3; i++)
       for (int j = 5; j < 8; j++)
       {
          UPtrPawn tmp = std::make_unique<Pawn>(true, i, j);
          cells[chessNotation[i * 8 + j]].setPawn(tmp);
-         //std::cout << chessNotation[i * 8 + j] << std::endl;
+
       }
 
 }
@@ -87,6 +87,43 @@ void Board::movePawn(const int& indexCell)
 bool Board::wasMoved()
 {
    return moved;
+}
+
+bool Board::getOwnerPawn(const int& cellIndex)
+{
+   return cells[chessNotation[cellIndex]].getOwnerPawn();
+}
+
+bool Board::cheackPawn(const int& cellIndex)
+{
+   return !cells[chessNotation[cellIndex]].cheackPawn();
+}
+
+bool Board::wasSelected()
+{
+   return lastSelect != -1;
+}
+
+bool Board::canMove(const int& indexCell)
+{
+   if (lastSelect != -1)
+      for (const auto& i : indexes)
+         if (i == indexCell)
+            return true;
+   return false;
+}
+
+void Board::setVictoryFields(std::array<int, 9>& victoryFields, bool color)
+{
+   int k = 0;
+   if (color)
+      for (int i = 5; i < 8; i++)
+         for (int j = 0; j < 3; j++)
+               victoryFields[k++] = i * 8 + j;
+   else
+      for (int i = 0; i < 3; i++)
+         for (int j = 5; j < 8; j++)
+            victoryFields[k++] = i * 8 + j;
 }
 
 void Board::showMoveOptions()

@@ -68,3 +68,8 @@ void Cell::movePawn(Cell& other)
    pawn = std::move(other.pawn);
    pawn->Move(rectangle.getPosition());
 }
+
+bool Cell::getOwnerPawn()
+{
+   return pawn->getOwner();
+}

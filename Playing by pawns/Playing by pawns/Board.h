@@ -3,6 +3,8 @@
 #include "Cell.h"
 #include <map>
 #include <vector>
+#include <array>
+
 
 
 class Board
@@ -20,7 +22,11 @@ public:
    void SelectPiece(const int &i);
    void movePawn(const int& indexCell);
    bool wasMoved();
-
+   bool getOwnerPawn(const int& cellIndex);
+   bool cheackPawn(const int& cellIndex);
+   bool wasSelected();
+   bool canMove(const int& indexCell);
+   void setVictoryFields(std::array<int,9> &victoryFields, bool color);
    
 };
 

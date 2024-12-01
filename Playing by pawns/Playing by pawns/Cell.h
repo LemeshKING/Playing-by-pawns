@@ -3,6 +3,7 @@
 
 typedef std::unique_ptr<Pawn> UPtrPawn;
 
+
 class Cell
 {
    sf::Sprite sprite;
@@ -21,5 +22,6 @@ public:
    void diselectPawn();
    void drawMoveOption(sf::RenderWindow& window);
    void movePawn(Cell &other);
+   bool getOwnerPawn();
 };
 
