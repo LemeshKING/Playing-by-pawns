@@ -14,7 +14,7 @@ private:
    std::map<int, std::string> chessNotation;
    std::map<std::string, Cell> cells;
    int lastSelect = -1;
-   void showMoveOptions();
+   void CalculateMoveOptions();
    bool moved = false;
 public:
    Board();
@@ -27,6 +27,8 @@ public:
    bool wasSelected();
    bool canMove(const int& indexCell);
    void setVictoryFields(std::array<int,9> &victoryFields, bool color);
+   std::vector<int> getMoveOptions();
+   std::map<int,int> getAIPawns(const bool &color);
    
 };
 

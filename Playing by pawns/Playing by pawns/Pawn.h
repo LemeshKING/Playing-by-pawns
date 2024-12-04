@@ -7,6 +7,7 @@ class Pawn
    sf::Sprite sprite;
    sf::Vector2f position;
    sf::RectangleShape rectangle;
+   sf::Texture texture;
    bool owner;
  public:
    Pawn(bool color, int i, int j);

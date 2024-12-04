@@ -3,35 +3,39 @@
 
 Pawn::Pawn(bool color, int i, int j)
 {
+   if(!texture.loadFromFile("Pawns.png"))
+      texture.loadFromFile("../Pawns.png");
+   sprite.setTexture(texture);
+
    rectangle.setSize(sf::Vector2f(50,50));
    if(color)
-      rectangle.setFillColor(sf::Color::Green);
+      sprite.setTextureRect(sf::IntRect(32, 0, 32, 54));
    else
-      rectangle.setFillColor(sf::Color::Red);
-
+      sprite.setTextureRect(sf::IntRect(0, 0, 32, 54));
+   sprite.setPosition(51 + j * 54, 418 - i * 54);
    rectangle.setPosition(42 + j * 54, 420 - i * 54);
    owner = color;
 }
 
 void Pawn::Draw(sf::RenderWindow& window)
 {
-   window.draw(rectangle);
+   window.draw(sprite);
 }
 
 void Pawn::select()
 {
-   rectangle.setOutlineThickness(1);
-   rectangle.setOutlineColor(sf::Color::Yellow);
+
+
 }
 
 void Pawn::diselect()
 {
-   rectangle.setOutlineThickness(0);
+
 }
 
 void Pawn::Move(const sf::Vector2f& position)
 {
-   rectangle.setPosition(position.x + 2, position.y + 2);
+   sprite.setPosition(position.x + 11, position.y);
 }
 
 bool Pawn::getOwner()

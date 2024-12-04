@@ -7,23 +7,17 @@ Board::Board()
       for(int j = 0; j < 8; j++)
       {
          chessNotation[i * 8 + j] = char('A' + j) + std::to_string(i + 1);
-         if(i % 2 == 0)
-            if(j % 2 == 0)
-               cells[chessNotation[i * 8 + j]] = Cell(false, i, j);
-            else
-               cells[chessNotation[i * 8 + j]] = Cell(true, i, j);
+         if((i + j) % 2 == 0)
+            cells[chessNotation[i * 8 + j]] = Cell(true, i, j);
          else
-            if (j % 2 == 0)
-               cells[chessNotation[i * 8 + j]] = Cell(true, i, j);
-            else
-               cells[chessNotation[i * 8 + j]] = Cell(false, i, j);
+            cells[chessNotation[i * 8 + j]] = Cell(false, i, j);
+        
       }
    for(int i = 5; i < 8; i++)
       for(int j = 0; j < 3; j++)
       {
          UPtrPawn tmp = std::make_unique<Pawn>(false, i, j);
          cells[chessNotation[i * 8 + j]].setPawn(tmp);
-
       }
    for (int i = 0; i < 3; i++)
       for (int j = 5; j < 8; j++)
@@ -62,7 +56,7 @@ void Board::SelectPiece(const int& i)
       if(lastSelect != -1)
          cells[chessNotation[lastSelect]].diselectPawn();
       lastSelect = i;
-      showMoveOptions();
+      CalculateMoveOptions();
    }
    else if (lastSelect != -1)
    {
@@ -126,7 +120,27 @@ void Board::setVictoryFields(std::array<int, 9>& victoryFields, bool color)
             victoryFields[k++] = i * 8 + j;
 }
 
-void Board::showMoveOptions()
+std::vector<int> Board::getMoveOptions()
+{
+   return indexes;
+}
+
+std::map<int, int> Board::getAIPawns(const bool &color)
+{
+   std::map<int, int> tmp;
+   int k = 0;
+   if(!color)
+      for(int i = 5; i < 8; i++)
+         for(int j = 0; j < 3; j++)
+            tmp[k++] = i * 8 + j;
+   else
+      for (int i = 0; i < 3; i++)
+         for (int j = 5; j < 8; j++)
+            tmp[k++] = i * 8 + j;
+   return tmp;
+}
+
+void Board::CalculateMoveOptions()
 {
    indexes.clear();
    indexes.reserve(4);
